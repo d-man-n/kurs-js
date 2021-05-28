@@ -295,11 +295,11 @@
 
     //Кнопка добавить клиента
     const buttonAdd = () => {
-        button = document.createElement('button');
+        const button = document.createElement('button');
         button.classList.add('btn-reset', 'clients__add');
         button.textContent = 'Добавить клиента';
 
-        buttonContainer = document.createElement('div');
+        const buttonContainer = document.createElement('div');
         buttonContainer.classList.add('clients__add-container');
         buttonContainer.append(button);
 
