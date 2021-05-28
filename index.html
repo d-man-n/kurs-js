@@ -7,44 +7,11 @@
     <link rel="SHORTCUT ICON" type="image/x-icon" href="img/favicon.png">
     <link rel="stylesheet" href="./css/normalize.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="http://cdn.jsdelivr.net/npm/choices.js@9.0.1/public/assets/styles/choices.min.css"/>
     <script src="./js/script.js" defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/choices.js/public/assets/scripts/choices.min.js"></script>
 
     <title>Система управления контактными данными клиентов.</title>
 </head>
 <body>
-    <div class="modal-bg">
-        <div class="modal modal__add">
-            <div class="modal__header">
-                <h2 class="modal__title"></h2>
-                <button class="btn-reset modal__close cancel">
-                    <span class="modal__close-line"></span>
-                    <span class="modal__close-line"></span>
-                </button>
-            </div>
-            <div class="modal__form form">
-                <form method="post">
-                    <div class="form__main-field">
-                        <input type="text" class="form__input" name="surName" id="surName" placeholder="Фамилия*">
-                        <input type="text" class="form__input" name="name" id="name" placeholder="Имя*">
-                        <input type="text" class="form__input" name="lastName" id="lastName" placeholder="Отчество">
-                    </div>
-                    <div class="form__add-field">
-                        <div class="form__contacts-field"></div>
-                        <button class="btn-reset form__contact">
-                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M8.00001 4.66659C7.63334 4.66659 7.33334 4.96659 7.33334 5.33325V7.33325H5.33334C4.96668 7.33325 4.66668 7.63325 4.66668 7.99992C4.66668 8.36659 4.96668 8.66659 5.33334 8.66659H7.33334V10.6666C7.33334 11.0333 7.63334 11.3333 8.00001 11.3333C8.36668 11.3333 8.66668 11.0333 8.66668 10.6666V8.66659H10.6667C11.0333 8.66659 11.3333 8.36659 11.3333 7.99992C11.3333 7.63325 11.0333 7.33325 10.6667 7.33325H8.66668V5.33325C8.66668 4.96659 8.36668 4.66659 8.00001 4.66659ZM8.00001 1.33325C4.32001 1.33325 1.33334 4.31992 1.33334 7.99992C1.33334 11.6799 4.32001 14.6666 8.00001 14.6666C11.68 14.6666 14.6667 11.6799 14.6667 7.99992C14.6667 4.31992 11.68 1.33325 8.00001 1.33325ZM8.00001 13.3333C5.06001 13.3333 2.66668 10.9399 2.66668 7.99992C2.66668 5.05992 5.06001 2.66659 8.00001 2.66659C10.94 2.66659 13.3333 5.05992 13.3333 7.99992C13.3333 10.9399 10.94 13.3333 8.00001 13.3333Z" fill="#9873FF"/>
-                            </svg>
-                            Добавить контакт
-                        </button>
-                    </div>
-                    <div class="form__btn-field">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>  
     <header class="header">
         <div class="container header__container">
             <a href="/" class="header__logo">
@@ -57,17 +24,19 @@
     </header>
     <main class="main">
         <div class="container main__container cleints">
-            <h2 class="clients__header">Клиенты</h2>
-            <table class="clients__table">
-                <tr class="clients__table-header-row">
-                    <td class="clients__table-header-cell clients__table-header-cell_cell1 clients__table-header-cell_usort" id="id">ID<span>&nbsp;</span></td>
-                    <td class="clients__table-header-cell clients__table-header-cell_cell2" id="fio">Фамилия Имя Отчество<span>&nbsp;</span></td>
-                    <td class="clients__table-header-cell clients__table-header-cell_cell3" id="createdAt">Дата и время создания<span>&nbsp;</span></td>
-                    <td class="clients__table-header-cell clients__table-header-cell_cell4" id="updatedAt">Последние изменения<span>&nbsp;</span></td>
-                    <td class="clients__table-header-cell clients__table-header-cell_cell5">Контакты</td>
-                    <td class="clients__table-header-cell clients__table-header-cell_cell6">Действия</td>
-                </tr>
-            </table>
+            <div class="clients__table-box">
+                <h2 class="clients__header">Клиенты</h2>
+                <table class="clients__table">
+                    <tr class="clients__table-header-row">
+                        <td class="clients__table-header-cell clients__table-header-cell_cell1 clients__table-header-cell_usort" id="id">ID<span>&nbsp;</span></td>
+                        <td class="clients__table-header-cell clients__table-header-cell_cell2" id="fio">Фамилия Имя Отчество<span>&nbsp;</span></td>
+                        <td class="clients__table-header-cell clients__table-header-cell_cell3" id="createdAt">Дата и время создания<span>&nbsp;</span></td>
+                        <td class="clients__table-header-cell clients__table-header-cell_cell4" id="updatedAt">Последние изменения<span>&nbsp;</span></td>
+                        <td class="clients__table-header-cell clients__table-header-cell_cell5">Контакты</td>
+                        <td class="clients__table-header-cell clients__table-header-cell_cell6">Действия</td>
+                    </tr>
+                </table>
+            </div>
         </div>
     </main>
 </body>
