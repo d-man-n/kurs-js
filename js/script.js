@@ -52,11 +52,12 @@
         confirmCancel.textContent = 'Отмена';
 
         confirmCloseContainer.append(confirmClose);
-        divConfirm.append(confirmCloseContainer);
-        divConfirm.append(confirmHeader);
-        divConfirm.append(confirmTitle);
-        divConfirm.append(delBtn);
-        divConfirm.append(confirmCancel);
+        divConfirm.append(confirmCloseContainer, confirmHeader, confirmTitle, delBtn, confirmCancel);
+        // divConfirm.append(confirmCloseContainer);
+        // divConfirm.append(confirmHeader);
+        // divConfirm.append(confirmTitle);
+        // divConfirm.append(delBtn);
+        // divConfirm.append(confirmCancel);
         divBg.append(divConfirm);
         document.querySelector('body').append(divBg);
         
@@ -107,8 +108,9 @@
         modalSurnameLabel.classList.add('modal__label');
         modalSurnameLabel.htmlFor = 'surName';
         modalSurnameLabel.innerHTML = 'Фамилия<span>*</span>';
-        modalSurnameContainer.append(modalSurname);
-        modalSurnameContainer.append(modalSurnameLabel);
+        modalSurnameContainer.append(modalSurname, modalSurnameLabel);
+        // modalSurnameContainer.append(modalSurname);
+        // modalSurnameContainer.append(modalSurnameLabel);
 
         const modalNameContainer = document.createElement('div');
         modalNameContainer.classList.add('modal__placeholder-container');
@@ -122,8 +124,9 @@
         modalNameLabel.classList.add('modal__label');
         modalNameLabel.htmlFor = 'name';
         modalNameLabel.innerHTML = 'Имя<span>*</span>';
-        modalNameContainer.append(modalName);
-        modalNameContainer.append(modalNameLabel);
+        modalNameContainer.append(modalName, modalNameLabel);
+        // modalNameContainer.append(modalName);
+        // modalNameContainer.append(modalNameLabel);
 
         const modalLastnameContainer = document.createElement('div');
         modalLastnameContainer.classList.add('modal__placeholder-container');
@@ -137,8 +140,9 @@
         modalLastnameLabel.classList.add('modal__label');
         modalLastnameLabel.htmlFor = 'lastName';
         modalLastnameLabel.textContent = 'Отчество';
-        modalLastnameContainer.append(modalLastname);
-        modalLastnameContainer.append(modalLastnameLabel);
+        modalLastnameContainer.append(modalLastname, modalLastnameLabel);
+        // modalLastnameContainer.append(modalLastname);
+        // modalLastnameContainer.append(modalLastnameLabel);
 
         const modalFormContacts = document.createElement('div');
         modalFormContacts.classList.add('form__contacts-field');
@@ -153,19 +157,24 @@
         modalBtnContainer.classList.add('form__btn-field');
 
         divBg.append(divModal);
-        modalHeaderContainer.append(modalHeader);
-        modalHeaderContainer.append(modalClose);
-        divModal.append(modalHeaderContainer);
-        divModal.append(modalForm);
-        modalInputContainer.append(modalSurnameContainer);
-        modalInputContainer.append(modalNameContainer);
-        modalInputContainer.append(modalLastnameContainer);
+        modalHeaderContainer.append(modalHeader, modalClose);
+        // modalHeaderContainer.append(modalHeader);
+        // modalHeaderContainer.append(modalClose);
+        divModal.append(modalHeaderContainer, modalForm);
+        // divModal.append(modalHeaderContainer);
+        // divModal.append(modalForm);
+        modalInputContainer.append(modalSurnameContainer, modalNameContainer, modalLastnameContainer);
+        // modalInputContainer.append(modalSurnameContainer);
+        // modalInputContainer.append(modalNameContainer);
+        // modalInputContainer.append(modalLastnameContainer);
         modalForm.append(modalInputContainer);
-        modalFormContacts.append(modalFormAddContacts);
-        modalFormContacts.append(modalBtnContact);
-        modalForm.append(modalFormContacts);
-        modalForm.append(modalTextError);
-        modalForm.append(modalBtnContainer);
+        modalFormContacts.append(modalFormAddContacts, modalBtnContact);
+        // modalFormContacts.append(modalFormAddContacts);
+        // modalFormContacts.append(modalBtnContact);
+        modalForm.append(modalFormContacts, modalTextError, modalBtnContainer);
+        // modalForm.append(modalFormContacts);
+        // modalForm.append(modalTextError);
+        // modalForm.append(modalBtnContainer);
         document.querySelector('body').append(divBg);
 
         const saveBtn = document.createElement('button');
@@ -194,29 +203,32 @@
                 this.classList.add('form__save_active');
                 const modalData = getModalData(user);
 
-                fetch(`http://localhost:3000/api/clients/${modalData.user.id}`, {
-                    method: 'PATCH',
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({
-                        name: modalData.name,
-                        surname: modalData.surName,
-                        lastName: modalData.lastName,
-                        contacts: modalData.contacts
-                     })
-                })
-                .then(() => {
-                    setTimeout(function(){
+                if (modalData.err === 0) {
+                    fetch(`http://localhost:3000/api/clients/${modalData.user.id}`, {
+                        method: 'PATCH',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({
+                            name: modalData.name,
+                            surname: modalData.surName,
+                            lastName: modalData.lastName,
+                            contacts: modalData.contacts
+                         })
+                    })
+                    // .then(() => {
+                    //     setTimeout(function(){
+                    //         saveBtn.classList.remove('form__save_active');
+                    //     }, 1300);
+                    // })
+                    .then(() => {
                         saveBtn.classList.remove('form__save_active');
-                    }, 1300);
-                })
-                .then(() => {
-                    removeItems();
-                    divBg.remove();
-                    setTimeout(loadItems, 100, 'id', false);
-                })
-                .catch(err => {
-                    document.querySelector('.form__error').textContent = 'Ошибка: новая модель организационной деятельности предполагает независимые способы реализации поставленных обществом задач!';
-                })
+                        removeItems();
+                        divBg.remove();
+                        setTimeout(loadItems, 100, 'id', false);
+                    })
+                    .catch(err => {
+                        document.querySelector('.form__error').textContent = 'Ошибка: новая модель организационной деятельности предполагает независимые способы реализации поставленных обществом задач!';
+                    })
+                }
             })
 
             //Кнопка Удалить клиента
@@ -233,10 +245,12 @@
             saveBtn.addEventListener('click', function(ev) {
                 ev.preventDefault();
                 const modalData = getModalData();
-                createItem(modalData);
-                removeItems();
-                divBg.remove();
-                setTimeout(loadItems, 100);
+                if (modalData.err === 0) {
+                    createItem(modalData);
+                    removeItems();
+                    divBg.remove();
+                    setTimeout(loadItems, 100);
+                }
             })
             //Кнопка отмена
             cancelBtn.textContent = 'Отмена';
@@ -316,8 +330,17 @@
 
     //Получение данных с формы
     const getModalData = (user) => {
+        let err = 0;
         const name = document.querySelector('#name').value;
+        if (name === "") {
+            document.querySelector('#name').style.borderColor = 'red';
+            err = 1;
+        }
         const surName = document.querySelector('#surName').value;
+        if (surName === "") {
+            document.querySelector('#surName').style.borderColor = 'red';
+            err = 1;
+        }
         const lastName = document.querySelector('#lastName').value;
     
         const contactType = document.querySelectorAll('.form__select');
@@ -333,7 +356,7 @@
             contacts[i] = {'type': contactTypeValue[i], 'value': contactText[i].value};
         }
 
-        return {user, name, surName, lastName, contacts};
+        return {err, user, name, surName, lastName, contacts};
     }
 
     //Создание полей ввода контактов
@@ -349,7 +372,7 @@
         if (type === 'phone' ) {
             tel.selected = 'selected';
         }
-        contactType.append(tel);
+        // contactType.append(tel);
         tel.addEventListener('click', function(){
             alert('111')
         })
@@ -360,7 +383,7 @@
         if (type === 'email' ) {
             email.selected = 'selected';
         }
-        contactType.append(email);
+        // contactType.append(email);
     
         const vk = document.createElement('option');
         vk.textContent = 'Vk';
@@ -368,7 +391,7 @@
         if (type === 'vk' ) {
             vk.selected = 'selected';
         }
-        contactType.append(vk);
+        // contactType.append(vk);
     
         const facebook = document.createElement('option');
         facebook.textContent = 'Facebook';
@@ -376,7 +399,7 @@
         if (type === 'fb' ) {
             facebook.selected = 'selected';
         }
-        contactType.append(facebook);
+        // contactType.append(facebook);
 
         const other = document.createElement('option');
         other.textContent = 'Другое';
@@ -384,8 +407,8 @@
         if (type === 'other' ) {
             other.selected = 'selected';
         }        
-        contactType.append(other);
-    
+        contactType.append(tel, email, vk, facebook, other);
+
         const contactText = document.createElement('input');
         contactText.type='text';
         contactText.placeholder = 'Введите данные контакта';
@@ -405,9 +428,15 @@
             }
         })
 
-        contactField.append(contactType);
-        contactField.append(contactText);
-        contactField.append(contactDelBtn);
+        contactField.append(contactType, contactText, contactDelBtn);
+        const ccc = new Choices(contactType, {
+            searchEnabled: false,
+            placeholder: true,
+            itemSelectText: ''
+        });
+        // contactField.append(contactType);
+        // contactField.append(contactText);
+        // contactField.append(contactDelBtn);
     
         return {
             contactField,
@@ -472,24 +501,24 @@
             id.classList.add('clients__table-cell');
             id.classList.add('clients__table-cell_id');
             id.textContent = dd.id.slice(8) + '...';
-            row.append(id);
+            // row.append(id);
     
             const fio = document.createElement('td');
             fio.classList.add('clients__table-cell');
             fio.textContent = dd.surname +  ' ' + dd.name + ' ' + dd.lastName;
-            row.append(fio);
+            // row.append(fio);
     
             const dat = new Date(dd.createdAt);
             const cdate = document.createElement('td');
             cdate.classList.add('clients__table-cell');
             cdate.innerHTML = zeroDate(dat.getDate()) + '.' + zeroDate(dat.getMonth()) + '.' + dat.getUTCFullYear() + " <span class='clients__time'>" + dat.getHours() + ':' + zeroDate(dat.getMinutes()) + '</span>';
-            row.append(cdate);
+            // row.append(cdate);
     
             const dat2 = new Date(dd.updatedAt);
             const mdate = document.createElement('td');
             mdate.classList.add('clients__table-cell');
             mdate.innerHTML = zeroDate(dat2.getDate()) + '.' + zeroDate(dat2.getMonth()) + '.' + dat2.getUTCFullYear() + " <span class='clients__time'>" + dat2.getHours() + ':' + zeroDate(dat2.getMinutes()) + '</span>';
-            row.append(mdate);
+            // row.append(mdate);
     
             const contacts = document.createElement('td');
             contacts.classList.add('clients__table-cell');
@@ -518,7 +547,7 @@
             })
 
             contacts.append(contactsContainer);
-            row.append(contacts);
+            // row.append(contacts);
     
             const actions = document.createElement('td');
             actions.classList.add('clients__table-cell');
@@ -553,10 +582,11 @@
                 confirmDel(dd.id, row);
             });
     
-            buttonGroup.append(editButton);
-            buttonGroup.append(deleteButton);
+            buttonGroup.append(editButton, deleteButton);
+            // buttonGroup.append(editButton);
+            // buttonGroup.append(deleteButton);
             actions.append(buttonGroup);
-            row.append(actions);
+            row.append(id, fio, cdate, mdate, contacts, actions);
     
             tab.append(row);
         }
